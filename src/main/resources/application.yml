@@ -1,0 +1,44 @@
+logging:
+    file: application.log
+schoolmonitor:
+    
+        dataSources:
+        -
+            driverClassName: com.mysql.cj.jdbc.Driver 
+            password: Rome!234
+            url: jdbc:mysql://localhost:3306/schoolmonitor2
+            username: root
+            tenantIdentifier: BenHur
+        -
+            driverClassName: com.mysql.cj.jdbc.Driver 
+            password: Rome!234
+            url: jdbc:mysql://localhost:3306/schoolmonitor
+            username: root
+            tenantIdentifier: Stjudes
+server:
+    port: 8088
+    servlet:
+        context-path: /
+        
+spring:
+    devtools:
+        restart:
+            exclude: static/**,public/**
+            log-condition-evaluation-delta: true
+    jpa:
+        database: mysql
+        hibernate:
+            ddl-auto: none
+            naming:
+                physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        show-sql: true
+    shools:
+        datasource:
+            driver-class-name: com.mysql.cj.jdbc.Driver
+            password: Rome!234
+            url: jdbc:mysql://localhost:3306/schools
+            username: root
+      
