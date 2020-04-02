@@ -195,7 +195,6 @@ public class StudentDataUploadServiceImpl implements StudentDataUploadService {
 							BeanUtils.copyProperties(schoolSpecificDTO, schoolSpecific);
 							schoolSpecificesRepository.save(schoolSpecific);
 							schooSpecificsId = schoolSpecific.getSchoolSpecificsId();
-							// StudentList not updated for SchoolSpecific Entity
 
 						}
 
@@ -248,8 +247,8 @@ public class StudentDataUploadServiceImpl implements StudentDataUploadService {
 								studentDTO.setStudentEmailId(currentCellMarker.getStringCellValue());
 						}
 
-						studentDTO.setStudentId(studentRepository.findMaxStudentId() + 1);
-						addressDTO.setLinkedStudentId(Integer.toString(studentDTO.getStudentId()));
+						 studentDTO.setStudentId(studentRepository.findMaxStudentId() + 1);
+						 addressDTO.setLinkedStudentId(Integer.toString(studentDTO.getStudentId()));
 
 						if (null != row.getCell(columnHeadersMap.get("studentAddressLandMark".trim()))) {
 							currentCellMarker = row.getCell(columnHeadersMap.get("studentAddressLandMark".trim()));
