@@ -2,14 +2,19 @@ package com.schoolmonitor.entities.schoolmonitor;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.springframework.stereotype.Component;
 
 /**
  * The persistent class for the address database table.
@@ -17,6 +22,7 @@ import javax.persistence.Table;
  */
 
 //TODO : linkedStudentId and linkedTeacherId could be removed from table and entity
+
 @Entity
 @Table(schema="schoolmonitor",name = "address")
 @NamedQuery(name = "Address.findAll", query = "SELECT a FROM Address a")
@@ -24,6 +30,7 @@ public class Address implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(nullable = false)
 	private int addressId;
 

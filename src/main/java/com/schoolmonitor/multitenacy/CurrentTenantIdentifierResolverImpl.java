@@ -2,7 +2,6 @@
 package com.schoolmonitor.multitenacy;
 
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import com.schoolmonitor.model.TenantContext;

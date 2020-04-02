@@ -11,5 +11,4 @@ import com.schoolmonitor.repositories.BaseRepository;
 
 @Repository
 public interface AddressRepository extends BaseRepository<Address, Integer> {
-
 }

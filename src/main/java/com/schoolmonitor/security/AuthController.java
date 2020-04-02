@@ -2,6 +2,8 @@ package com.schoolmonitor.security;
 
 import static org.springframework.http.ResponseEntity.ok;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +32,7 @@ public class AuthController {
 	AuthService authService;
 
 	@PostMapping("/signin")
-	public ResponseEntity<?> signin(@RequestBody AuthenticationRequest data, HttpServletRequest request) {
+	public ResponseEntity<?> signin(@RequestBody AuthenticationRequest data, HttpServletRequest request,HttpSession session) {
 
 		try {
 			return ok(authService.signin(data, request));

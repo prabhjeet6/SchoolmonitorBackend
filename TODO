@@ -1,0 +1,12 @@
+Constants need to be migrated to properties file
+Student upload logic: 
+a.personnel uploading should be Admin,
+b.it could be a new school registration
+c.it could be new students to an existing registration
+d. updates to existing data, should happen, with as and when basis
+(eg. student passing/failing in a class etc)
+
+
+
+valid subscription?->yes->admin?
+                      |new/old

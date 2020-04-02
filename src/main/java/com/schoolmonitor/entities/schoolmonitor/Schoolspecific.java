@@ -1,13 +1,24 @@
 package com.schoolmonitor.entities.schoolmonitor;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  * The persistent class for the schoolspecifics database table.
  * 
  */
+
 @Entity
 @Table(schema="schoolmonitor",name = "schoolspecifics")
 @NamedQuery(name = "Schoolspecific.findAll", query = "SELECT s FROM Schoolspecific s")
@@ -33,6 +44,7 @@ public class Schoolspecific implements Serializable {
 	private String schoolEmailId;
 	@Id
 	@Column
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int schoolSpecificsId;
 
 	public int getSchoolSpecificsId() {
@@ -41,11 +53,11 @@ public class Schoolspecific implements Serializable {
 
 	// bi-directional many-to-one association to Student
 	@OneToMany(mappedBy = "schoolspecific")
-	private List<Student> students;
+	private List<Student> students =new ArrayList<Student>();
 
 	// bi-directional many-to-one association to Teacher
 	@OneToMany(mappedBy = "schoolspecific")
-	private List<Teacher> teachers;
+	private List<Teacher> teachers=new ArrayList<Teacher>();
 
 	public Schoolspecific() {
 	}

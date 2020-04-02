@@ -1,6 +1,12 @@
 
 package com.schoolmonitor.controller;
 
+import static org.springframework.http.ResponseEntity.ok;
+
+import java.io.IOException;
+
+import org.apache.catalina.servlet4preview.http.HttpServletRequest;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,11 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import static org.springframework.http.ResponseEntity.ok;
-
-import java.io.IOException;
-
 import com.schoolmonitor.exception.SchoolMonitorException;
+import com.schoolmonitor.model.TenantContext;
 import com.schoolmonitor.service.StudentDataUploadService;
 
 /**
@@ -32,10 +35,12 @@ public class StudentDataUploadController {
 
 	@PostMapping(value="/studentDataUpload", consumes = { "multipart/form-data" })
 	
-	public ResponseEntity<?> studentDataUpload(@RequestParam("studentDataFile") MultipartFile studentDataFile) {
+	public ResponseEntity<?> studentDataUpload(@RequestParam("studentDataFile") MultipartFile studentDataFile,HttpServletRequest request) {
 		try {
-			return ok(studentDataUploadService.studentDataUpload( studentDataFile));
-		} catch (IOException e) {
+			  TenantContext.setCurrentTenant((String)request.getSession().getAttribute("Domain"));
+			  
+			return ok(studentDataUploadService.studentDataUpload( studentDataFile,request));
+		} catch (IOException | InvalidFormatException e) {
 			throw new SchoolMonitorException(e);
 		}
 

@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.schoolmonitor.exception.SchoolMonitorException;
 import com.schoolmonitor.model.CredentialDTO;
 import com.schoolmonitor.model.TenantContext;
 import com.schoolmonitor.repositories.schoolmonitor.CredentialsRepository;
@@ -83,9 +82,13 @@ public class AuthServiceImpl implements AuthService {
 
 				String token = jwtTokenProvider.createToken(data.getUsername(), this.getUserRoles(credentialDTO));
 				Map<Object, Object> model = new HashMap<>();
-				model.put("username", data.getUsername());
-				model.put("token", token);
-	
+				model.put("Username", data.getUsername());
+				model.put("Token", token);
+	            
+				HttpSession session=request.getSession(true);
+				session.setAttribute("Username", data.getUsername());
+				session.setAttribute("Token", token);
+				session.setAttribute("Domain", data.getDomain());
 				return model;
 			/*} else {
 				throw new BadCredentialsException("Credentials do not match with the expected User");

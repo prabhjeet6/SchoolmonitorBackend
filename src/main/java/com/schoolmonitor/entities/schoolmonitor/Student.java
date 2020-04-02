@@ -1,8 +1,20 @@
 package com.schoolmonitor.entities.schoolmonitor;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.Date;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * The persistent class for the student database table.
@@ -48,7 +60,7 @@ public class Student implements Serializable {
 	
 
 	// bi-directional one-to-one association to Credential
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY,cascade=CascadeType.ALL)
 	@JoinColumn(name = "studentId", referencedColumnName = "linkedStudentId", nullable = false)
 	private Credential credential;
 
@@ -69,7 +81,7 @@ public class Student implements Serializable {
 	}
 
 	// bi-directional many-to-one association to Schoolspecific
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY,cascade=CascadeType.ALL)
 	@JoinColumn(name = "schoolSpecificsId", referencedColumnName = "schoolSpecificsId", nullable = false)
 	private Schoolspecific schoolspecific;
 	@Column(nullable = false,insertable=false,updatable=false)
@@ -77,7 +89,7 @@ public class Student implements Serializable {
 	@Column(unique = true, nullable = false)
 	private int linkedAddressId;
 	// bi-directional one-to-one association to Address
-	@OneToOne(mappedBy = "student", fetch = FetchType.LAZY)
+	@OneToOne(mappedBy = "student", fetch = FetchType.LAZY,cascade=CascadeType.ALL)
 	@JoinColumn(name = "linkedAddressId", referencedColumnName = "addressId")
 	private Address address;
 
@@ -87,11 +99,11 @@ public class Student implements Serializable {
 	@Column(unique=true)
 	private String classRollnumberSectionInformation;
 	
-	public String getClassRolenumberSectionInformation() {
+	public String getClassRollnumberSectionInformation() {
 		return classRollnumberSectionInformation;
 	}
 
-	public void setClassRolenumberSectionInformation(String classRollnumberSectionInformation) {
+	public void setClassRollnumberSectionInformation(String classRollnumberSectionInformation) {
 		this.classRollnumberSectionInformation = classRollnumberSectionInformation;
 	}
 

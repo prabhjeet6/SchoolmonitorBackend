@@ -11,5 +11,5 @@ import com.schoolmonitor.repositories.BaseRepository;
 @Repository
 public interface SubscriptionRepository extends BaseRepository<Subscription, Integer> {
 
-
+String findSubscriptionStatusBySubscriptionId(int subscriptionId);
 }
