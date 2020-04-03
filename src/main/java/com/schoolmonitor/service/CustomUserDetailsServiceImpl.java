@@ -1,6 +1,5 @@
 package com.schoolmonitor.service;
 
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -15,9 +14,7 @@ import com.schoolmonitor.entities.schools.School;
 import com.schoolmonitor.entities.schools.Subscription;
 import com.schoolmonitor.exception.SchoolMonitorException;
 import com.schoolmonitor.model.CredentialDTO;
-import com.schoolmonitor.model.TenantContext;
 import com.schoolmonitor.repositories.schoolmonitor.CredentialsRepository;
-import com.schoolmonitor.repositories.schoolmonitor.StudentRepository;
 import com.schoolmonitor.repositories.schools.SchoolRepository;
 import com.schoolmonitor.repositories.schools.SubscriptionRepository;
 
@@ -40,8 +37,7 @@ public class CustomUserDetailsServiceImpl implements CustomUserDetailsService {
 	@Autowired
 	private SubscriptionRepository subscriptionRepository;
 
-	@Autowired
-	private StudentRepository studentRepository;
+	
 
 	@Autowired
 	AuthService authService;
@@ -52,11 +48,10 @@ public class CustomUserDetailsServiceImpl implements CustomUserDetailsService {
 		try {
 			School school = schoolRepository.findByDomainForLogin(domain);
 			Subscription subscription = subscriptionRepository.findById(school.getSubscriptionId()).get();
-			Date subscriptionEndDate = subscription.getSubscribedTo();
-			if (subscriptionEndDate.compareTo(java.sql.Date.valueOf(LocalDate.now())) > 0) {
-				// TODO: check code below
-				Integer studentId = studentRepository.findStudentIdBySchoolId(school.getSchoolId());
-				if (username.equalsIgnoreCase(credentialsRepository.findUserNameByLinkedStudentId(studentId.toString()))) {
+			Date currentDate = new Date();
+			if (currentDate.compareTo(subscription.getSubscribedTo()) <= 0
+					&& currentDate.compareTo(subscription.getSubscribedFrom()) >= 0) {
+				if (null != credentialsRepository.findByUserName(username)) {
 					credentialDTO.setDomain(domain);
 					return this.loadUserByUsername(username);
 				}

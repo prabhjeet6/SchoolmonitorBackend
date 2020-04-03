@@ -75,7 +75,6 @@ public class StudentDataUploadServiceImpl implements StudentDataUploadService {
 	PasswordEncoder passwordEncoder;
 
 	CredentialDTO credentialDTO;
-
 	@Override
 	public Void studentDataUpload(MultipartFile studentDataFile, HttpServletRequest request)
 			throws IOException, InvalidFormatException {
@@ -300,7 +299,7 @@ public class StudentDataUploadServiceImpl implements StudentDataUploadService {
 						studentDTO.setClassRollnumberSectionInformation(classRollnumberSectionInformation);
 
 						credentialDTO
-								.setPassword(passwordEncoder.encode(studentFistName + studentLastName + dateOfBirth));
+								.setPassword(passwordEncoder.encode(studentFistName + studentLastName ));
 						String usernameCandidate = studentFistName + studentLastName.substring(0, 1);
 						int iterator = 1;
 						while (null != credentialsRepository.findByUserName(usernameCandidate)) {

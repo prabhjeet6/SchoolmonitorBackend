@@ -10,5 +10,4 @@ import com.schoolmonitor.entities.schoolmonitor.Credential;
 
 @Service
 public interface CredentialService {
-	Credential findByUserNameAndPassword(String Username, String password);
 }
