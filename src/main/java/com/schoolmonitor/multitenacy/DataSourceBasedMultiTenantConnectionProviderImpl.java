@@ -55,7 +55,12 @@ public class DataSourceBasedMultiTenantConnectionProviderImpl
 
 	@Override
 	protected DataSource selectDataSource(String tenantIdentifier) {
-		DataSource dataSource = this.multitanencyDataSourceMap.get(tenantIdentifier);
+		DataSource dataSource=null; 
+		for(String key:this.multitanencyDataSourceMap.keySet()) {
+			key.equalsIgnoreCase(tenantIdentifier);
+			dataSource= this.multitanencyDataSourceMap.get(key);
+			break;
+		}
 
 		return dataSource;
 

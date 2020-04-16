@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.schoolmonitor.entities.schoolmonitor.Credential;
 import com.schoolmonitor.model.CredentialDTO;
 import com.schoolmonitor.model.TenantContext;
 import com.schoolmonitor.repositories.schoolmonitor.CredentialsRepository;
@@ -71,6 +72,7 @@ public class AuthServiceImpl implements AuthService {
 	public Object signin(@RequestBody AuthenticationRequest data, HttpServletRequest request) {
 
 		TenantContext.setCurrentTenant(data.getDomain());
+		
 		credentialDTO = (CredentialDTO) customUserDetailsServiceImpl.loadUserByDomainAndUsername(data.getDomain(),
 				data.getUsername());
 		List<String> roles = this.getUserRoles(credentialDTO);
