@@ -30,6 +30,7 @@ public class DataSourceBasedMultiTenantConnectionProviderImpl
 	@Qualifier("multitenancyDataSourceMap")
 	@Autowired
 	private Map<String, DataSource> multitanencyDataSourceMap;
+
 	public Map<String, DataSource> getMultitanencyDataSourceMap() {
 		return multitanencyDataSourceMap;
 	}
@@ -39,10 +40,6 @@ public class DataSourceBasedMultiTenantConnectionProviderImpl
 	}
 
 	private static final long serialVersionUID = 1L;
-
-	
-
-	
 
 	@Override
 	protected DataSource selectAnyDataSource() {
@@ -55,11 +52,13 @@ public class DataSourceBasedMultiTenantConnectionProviderImpl
 
 	@Override
 	protected DataSource selectDataSource(String tenantIdentifier) {
-		DataSource dataSource=null; 
-		for(String key:this.multitanencyDataSourceMap.keySet()) {
-			key.equalsIgnoreCase(tenantIdentifier);
-			dataSource= this.multitanencyDataSourceMap.get(key);
-			break;
+		DataSource dataSource = null;
+		for (String key : this.multitanencyDataSourceMap.keySet()) {
+			if (key.equalsIgnoreCase(tenantIdentifier)) {
+				dataSource = this.multitanencyDataSourceMap.get(key);
+				break;
+			}
+
 		}
 
 		return dataSource;
