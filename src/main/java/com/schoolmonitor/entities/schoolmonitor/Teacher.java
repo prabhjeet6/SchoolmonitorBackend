@@ -27,8 +27,18 @@ public class Teacher implements Serializable {
 
 	@Column(nullable = false, length = 255)
 	private String lastName;
-
+    
+	@Column(nullable = false, length = 1)
+	private String gender;
 	
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
 
 	// bi-directional one-to-one association to Credential
 	@OneToOne(fetch = FetchType.LAZY)

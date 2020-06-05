@@ -36,6 +36,16 @@ public class Student implements Serializable {
 	@Column(nullable = false)
 	private Date dateOfBirth;
 
+	@Column(nullable = false, length = 1)
+	private String gender;
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
 	@Column(nullable = false, length = 255)
 	private String fatherName;
 

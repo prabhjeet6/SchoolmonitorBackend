@@ -50,7 +50,7 @@ import com.schoolmonitor.repositories.schools.SubscriptionRepository;
  * @version 1.0 Dec 28, 2019
  * 
  *          Here, Bulk upload will happen for new students only(new/old
- *          Subscription)
+ *          Subscription), each upload will be for a particular class/section of a logged in school
  */
 @Service
 public class StudentDataUploadServiceImpl implements StudentDataUploadService {
