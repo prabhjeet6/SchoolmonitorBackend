@@ -57,11 +57,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.cors().configurationSource(corsConfigurationSource())
 
 				.and().csrf().disable().headers().frameOptions().disable().and().httpBasic().disable()
-				.authorizeRequests().antMatchers("/auth/**").permitAll().antMatchers("/schoolmonitor/FeesManagment/**")
-				.hasAuthority("Student User").antMatchers("/schoolmonitor/TeacherConsole/**")
-				.hasAuthority("Teacher User").antMatchers("/schoolmonitor/AdminConsole/**")
-				.hasAuthority("Administrator").antMatchers("/schoolmonitor/AttendanceManagment/**").permitAll()
+				.authorizeRequests().antMatchers("/auth/**").permitAll()
+				.antMatchers("/schoolmonitor/FeesManagment/**").hasAuthority("Student User")
+				.antMatchers("/schoolmonitor/TeacherConsole/**").hasAuthority("Teacher User")
+				.antMatchers("/schoolmonitor/AdminConsole/**").hasAuthority("Administrator")
+				.antMatchers("/schoolmonitor/AttendanceManagment/**").permitAll()
 				.antMatchers("/schoolmonitor/CourseManagment/**", "/schoolmonitor/studentDataUpload").permitAll()
+				.antMatchers("/schoolmonitor/schoolDomains").anonymous()
 				.antMatchers("/schoolmonitor/ResultManagment/**").hasAuthority("Student User").anyRequest()
 				.authenticated().and().apply(new JwtConfigurer(jwtTokenProvider));
 
