@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.SendFailedException;
 import javax.servlet.http.HttpSession;
 
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
@@ -18,4 +19,5 @@ public interface AuthService {
 	Collection<? extends GrantedAuthority> getAuthorities(Collection<String> roles);
 	List<String> getUserRoles(CredentialDTO credentialDTO);
 	Object signin(AuthenticationRequest data, HttpServletRequest request);
+	Integer verifyEmailAndSendOTP(String domain, String emailId) throws SendFailedException;
 }

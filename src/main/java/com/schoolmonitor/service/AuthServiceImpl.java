@@ -6,10 +6,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.SendFailedException;
 import javax.servlet.http.HttpSession;
 
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,10 +23,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.schoolmonitor.entities.schoolmonitor.Credential;
 import com.schoolmonitor.model.CredentialDTO;
 import com.schoolmonitor.model.TenantContext;
 import com.schoolmonitor.repositories.schoolmonitor.CredentialsRepository;
+import com.schoolmonitor.repositories.schoolmonitor.StudentRepository;
+import com.schoolmonitor.repositories.schoolmonitor.TeachersRepository;
 import com.schoolmonitor.security.AuthenticationRequest;
 import com.schoolmonitor.security.JwtTokenProvider;
 
@@ -40,6 +44,15 @@ public class AuthServiceImpl implements AuthService {
 	JwtTokenProvider jwtTokenProvider;
 	@Autowired
 	CredentialDTO credentialDTO;
+
+	@Autowired
+	StudentRepository studentRepository;
+	@Autowired
+	TeachersRepository teachersRepository;
+
+	@Autowired
+	public JavaMailSender emailSender;
+
 	@Autowired
 	CustomUserDetailsServiceImpl customUserDetailsServiceImpl;
 
@@ -72,7 +85,7 @@ public class AuthServiceImpl implements AuthService {
 	public Object signin(@RequestBody AuthenticationRequest data, HttpServletRequest request) {
 
 		TenantContext.setCurrentTenant(data.getDomain());
-		
+
 		credentialDTO = (CredentialDTO) customUserDetailsServiceImpl.loadUserByDomainAndUsername(data.getDomain(),
 				data.getUsername());
 		List<String> roles = this.getUserRoles(credentialDTO);
@@ -99,4 +112,26 @@ public class AuthServiceImpl implements AuthService {
 
 	}
 
+	@Override
+	public Integer verifyEmailAndSendOTP(String domain,String emailId) throws SendFailedException {
+		
+		TenantContext.setCurrentTenant(domain);
+		Integer oneTimePassword = null;
+		if (null != studentRepository.findByStudentEmailId(emailId)
+				|| null != teachersRepository.findByTeacherEmailId(emailId)) {
+			oneTimePassword = (int) (Math.random() * 1000);
+			System.out.println(oneTimePassword+" this is it");
+			
+			this.sendMessage(emailId, null,oneTimePassword.toString());
+		}
+		return oneTimePassword;
+	}
+
+	public void sendMessage(String to, String subject, String text) throws SendFailedException {
+SimpleMailMessage message = new SimpleMailMessage();
+message.setTo(to);
+message.setSubject(subject);
+message.setText(text);
+emailSender.send(message);
+	}
 }

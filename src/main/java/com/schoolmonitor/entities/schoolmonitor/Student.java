@@ -61,7 +61,7 @@ public class Student implements Serializable {
 	@Column(length = 255)
 	private String stream;
 
-	@Column(length = 255)
+	@Column(length = 255,nullable=false)
 	private String studentEmailId;
 	@Id
 	@Column(nullable = false, length = 255)

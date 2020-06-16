@@ -20,5 +20,7 @@ public interface StudentRepository extends BaseRepository<Student, String> {
 	Integer findStudentIdBySchoolId(Integer schoolId);
 	@Query("SELECT max(studentId) FROM Student")
 	Integer findMaxStudentId();
+	
+	Student findByStudentEmailId(String studentEmailId);
 
 }

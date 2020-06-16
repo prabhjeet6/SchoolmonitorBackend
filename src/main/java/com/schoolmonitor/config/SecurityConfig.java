@@ -58,6 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 				.and().csrf().disable().headers().frameOptions().disable().and().httpBasic().disable()
 				.authorizeRequests().antMatchers("/auth/**").permitAll()
+				
 				.antMatchers("/schoolmonitor/FeesManagment/**").hasAuthority("Student User")
 				.antMatchers("/schoolmonitor/TeacherConsole/**").hasAuthority("Teacher User")
 				.antMatchers("/schoolmonitor/AdminConsole/**").hasAuthority("Administrator")

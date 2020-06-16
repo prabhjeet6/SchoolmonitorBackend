@@ -1,3 +1,5 @@
+
+
 logging:
     file: application.log
 schoolmonitor:
@@ -25,6 +27,15 @@ spring:
         restart:
             exclude: static/**,public/**
             log-condition-evaluation-delta: true
+
+
+    mail:
+     properties:
+           mail:
+             smtp:
+               ssl:
+                 enable:  true
+
     jpa:
         database: mysql
         hibernate:
