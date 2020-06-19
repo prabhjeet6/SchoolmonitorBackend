@@ -119,10 +119,10 @@ public class AuthServiceImpl implements AuthService {
 		Integer oneTimePassword = null;
 		if (null != studentRepository.findByStudentEmailId(emailId)
 				|| null != teachersRepository.findByTeacherEmailId(emailId)) {
-			oneTimePassword = (int) (Math.random() * 1000);
-			System.out.println(oneTimePassword+" this is it");
+			oneTimePassword = (int) (Math.random() * 10000);
 			
-			this.sendMessage(emailId, null,oneTimePassword.toString());
+			
+			this.sendMessage(emailId, "OneTimePassword","Hi,\n\n"+"Your verification Code for Password Recovery is "+oneTimePassword.toString()+"\n\nRegards,\nSchoolmonitor Support");
 		}
 		return oneTimePassword;
 	}
