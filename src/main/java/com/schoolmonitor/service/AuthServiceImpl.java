@@ -122,11 +122,22 @@ public class AuthServiceImpl implements AuthService {
 			oneTimePassword = (int) (Math.random() * 10000);
 			
 			
-			this.sendMessage(emailId, "OneTimePassword","Hi,\n\n"+"Your verification Code for Password Recovery is "+oneTimePassword.toString()+"\n\nRegards,\nSchoolmonitor Support");
+			this.sendMessage(emailId, "OneTimePassword","Hi,\n\n"+"Your verification Code for Password Recovery is "+addPaddingToOTP(oneTimePassword)+"\n\nRegards,\nSchoolmonitor Support");
 		}
 		return oneTimePassword;
 	}
-
+	static String addPaddingToOTP(Integer oneTimePassword){
+		int num=oneTimePassword,count=0;
+		for(; num != 0; num/=10, ++count);
+		if(count==3)			
+		return "0"+oneTimePassword;
+		else if(count==2)
+			return "00"+oneTimePassword;
+		else if(count==1)
+			return "000"+oneTimePassword;
+		else return oneTimePassword.toString();
+		
+	}
 	public void sendMessage(String to, String subject, String text) throws SendFailedException {
 SimpleMailMessage message = new SimpleMailMessage();
 message.setTo(to);
