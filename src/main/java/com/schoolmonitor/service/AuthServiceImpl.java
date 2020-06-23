@@ -26,8 +26,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.schoolmonitor.model.CredentialDTO;
 import com.schoolmonitor.model.TenantContext;
 import com.schoolmonitor.repositories.schoolmonitor.CredentialsRepository;
-import com.schoolmonitor.repositories.schoolmonitor.StudentRepository;
-import com.schoolmonitor.repositories.schoolmonitor.TeachersRepository;
 import com.schoolmonitor.security.AuthenticationRequest;
 import com.schoolmonitor.security.JwtTokenProvider;
 
@@ -45,10 +43,7 @@ public class AuthServiceImpl implements AuthService {
 	@Autowired
 	CredentialDTO credentialDTO;
 
-	@Autowired
-	StudentRepository studentRepository;
-	@Autowired
-	TeachersRepository teachersRepository;
+	
 
 	@Autowired
 	public JavaMailSender emailSender;
@@ -113,36 +108,48 @@ public class AuthServiceImpl implements AuthService {
 	}
 
 	@Override
-	public Integer verifyEmailAndSendOTP(String domain,String emailId) throws SendFailedException {
-		
+	public Integer verifyEmailAndSendOTP(String domain, String emailId) throws SendFailedException {
+
 		TenantContext.setCurrentTenant(domain);
 		Integer oneTimePassword = null;
-		if (null != studentRepository.findByStudentEmailId(emailId)
-				|| null != teachersRepository.findByTeacherEmailId(emailId)) {
+		
+		 if (null != credentialsRepository.findByEmailId(emailId)) {
 			oneTimePassword = (int) (Math.random() * 10000);
-			
-			
-			this.sendMessage(emailId, "OneTimePassword","Hi,\n\n"+"Your verification Code for Password Recovery is "+addPaddingToOTP(oneTimePassword)+"\n\nRegards,\nSchoolmonitor Support");
+
+			this.sendMessage(emailId, "OneTimePassword", "Hi,\n\n" + "Your verification Code for Password Recovery is "
+					+ addPaddingToOTP(oneTimePassword) + "\n\nRegards,\nSchoolmonitor Support");
 		}
 		return oneTimePassword;
 	}
-	static String addPaddingToOTP(Integer oneTimePassword){
-		int num=oneTimePassword,count=0;
-		for(; num != 0; num/=10, ++count);
-		if(count==3)			
-		return "0"+oneTimePassword;
-		else if(count==2)
-			return "00"+oneTimePassword;
-		else if(count==1)
-			return "000"+oneTimePassword;
-		else return oneTimePassword.toString();
-		
+
+	static String addPaddingToOTP(Integer oneTimePassword) {
+		int num = oneTimePassword, count = 0;
+		for (; num != 0; num /= 10, ++count)
+			;
+		if (count == 3)
+			return "0" + oneTimePassword;
+		else if (count == 2)
+			return "00" + oneTimePassword;
+		else if (count == 1)
+			return "000" + oneTimePassword;
+		else
+			return oneTimePassword.toString();
+
 	}
+
 	public void sendMessage(String to, String subject, String text) throws SendFailedException {
-SimpleMailMessage message = new SimpleMailMessage();
-message.setTo(to);
-message.setSubject(subject);
-message.setText(text);
-emailSender.send(message);
+		SimpleMailMessage message = new SimpleMailMessage();
+		message.setTo(to);
+		message.setSubject(subject);
+		message.setText(text);
+		emailSender.send(message);
 	}
+
+	@Override
+	public Object changePassword(String emailId, String domain, String newPassword) {
+      
+		return null;
+	}
+	
+	
 }

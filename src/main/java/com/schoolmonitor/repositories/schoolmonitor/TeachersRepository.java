@@ -10,5 +10,5 @@ import com.schoolmonitor.repositories.BaseRepository;
  */
 @Repository
 public interface TeachersRepository extends BaseRepository<Teacher, String> {
-	Teacher findByTeacherEmailId(String teacherEmailId);
+	
 }

@@ -61,8 +61,7 @@ public class Student implements Serializable {
 	@Column(length = 255)
 	private String stream;
 
-	@Column(length = 255,nullable=false)
-	private String studentEmailId;
+	
 	@Id
 	@Column(nullable = false, length = 255)
 	private int studentId;
@@ -192,13 +191,7 @@ public class Student implements Serializable {
 		this.stream = stream;
 	}
 
-	public String getStudentEmailId() {
-		return this.studentEmailId;
-	}
-
-	public void setStudentEmailId(String studentEmailId) {
-		this.studentEmailId = studentEmailId;
-	}
+	
 
 	public int getStudentId() {
 		return this.studentId;

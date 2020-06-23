@@ -20,4 +20,5 @@ public interface AuthService {
 	List<String> getUserRoles(CredentialDTO credentialDTO);
 	Object signin(AuthenticationRequest data, HttpServletRequest request);
 	Integer verifyEmailAndSendOTP(String domain, String emailId) throws SendFailedException;
+	Object changePassword(String emailId, String domain, String newPassword);
 }

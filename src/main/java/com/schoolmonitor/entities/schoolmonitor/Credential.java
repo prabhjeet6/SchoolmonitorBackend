@@ -36,6 +36,21 @@ public class Credential implements Serializable {
 
 	@Column(length = 255)
 	private String linkedStudentId;
+    
+	@Column(length = 255, nullable=false)
+	private String emailId;
+	
+	public String getEmailId() {
+		return emailId;
+	}
+
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 
 	@Column(length = 255)
 	private String linkedTeacherId;

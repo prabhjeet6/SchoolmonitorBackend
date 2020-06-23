@@ -61,15 +61,7 @@ public class Teacher implements Serializable {
 	public int getSchoolSpecificsId() {
 		return schoolSpecificsId;
 	}
-	@Column(length = 255,nullable=false)
-	private String teacherEmailId;
-	public String getTeacherEmailId() {
-		return teacherEmailId;
-	}
-
-	public void setTeacherEmailId(String teacherEmailId) {
-		this.teacherEmailId = teacherEmailId;
-	}
+	
 
 	public void setSchoolSpecificsId(int schoolSpecificsId) {
 		this.schoolSpecificsId = schoolSpecificsId;

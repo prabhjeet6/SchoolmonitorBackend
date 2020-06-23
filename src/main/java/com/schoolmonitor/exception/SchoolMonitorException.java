@@ -25,6 +25,7 @@ public class SchoolMonitorException extends RuntimeException {
 	Throwable ex;
     StackTraceElement[] stackTrace;
     Throwable cause;
+    
 	public SchoolMonitorException(Throwable ex) {
 		super();
 		this.ex = ex;
@@ -32,6 +33,7 @@ public class SchoolMonitorException extends RuntimeException {
 		cause=ex.getCause();
 		
 	}
+	
 
 	public Throwable getEx() {
 		return ex;
