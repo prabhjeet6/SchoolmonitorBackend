@@ -11,6 +11,7 @@ import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
+import com.schoolmonitor.model.ChangePasswordDTO;
 import com.schoolmonitor.model.CredentialDTO;
 import com.schoolmonitor.security.AuthenticationRequest;
 
@@ -20,5 +21,5 @@ public interface AuthService {
 	List<String> getUserRoles(CredentialDTO credentialDTO);
 	Object signin(AuthenticationRequest data, HttpServletRequest request);
 	Integer verifyEmailAndSendOTP(String domain, String emailId) throws SendFailedException;
-	Object changePassword(String emailId, String domain, String newPassword);
+	boolean changePassword(ChangePasswordDTO dto);
 }

@@ -51,7 +51,8 @@ public class CustomUserDetailsServiceImpl implements CustomUserDetailsService {
 			Date currentDate = new Date();
 			if (currentDate.compareTo(subscription.getSubscribedTo()) <= 0
 					&& currentDate.compareTo(subscription.getSubscribedFrom()) >= 0) {
-				if (null != credentialsRepository.findByUserName(username)) {
+				Credential attemptedCredential=credentialsRepository.findByUserName(username);
+				if (null != attemptedCredential&&attemptedCredential.getIsActive()==1) {
 					credentialDTO.setDomain(domain);
 					return this.loadUserByUsername(username);
 				}

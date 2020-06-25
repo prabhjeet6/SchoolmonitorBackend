@@ -2,6 +2,7 @@ package com.schoolmonitor.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.schoolmonitor.entities.schoolmonitor.Credential;
+import com.schoolmonitor.model.ChangePasswordDTO;
 import com.schoolmonitor.model.CredentialDTO;
 import com.schoolmonitor.model.TenantContext;
 import com.schoolmonitor.repositories.schoolmonitor.CredentialsRepository;
@@ -42,15 +45,10 @@ public class AuthServiceImpl implements AuthService {
 	JwtTokenProvider jwtTokenProvider;
 	@Autowired
 	CredentialDTO credentialDTO;
-
-	
-
 	@Autowired
 	public JavaMailSender emailSender;
-
 	@Autowired
 	CustomUserDetailsServiceImpl customUserDetailsServiceImpl;
-
 	@Autowired
 	PasswordEncoder passwordEncoder;
 
@@ -146,9 +144,17 @@ public class AuthServiceImpl implements AuthService {
 	}
 
 	@Override
-	public Object changePassword(String emailId, String domain, String newPassword) {
-      
-		return null;
+	public boolean changePassword(ChangePasswordDTO dto) {
+		TenantContext.setCurrentTenant(dto.getDomain());
+		Credential attemptedCredential=credentialsRepository.findByEmailId(dto.getEmailId());
+		if(null!=attemptedCredential) {
+			attemptedCredential.setPassword(passwordEncoder.encode(dto.getNewPassword()));
+			attemptedCredential.setIsActive((byte)1);
+			attemptedCredential.setPasswordLastChangedDate(new Date());
+			credentialsRepository.save(attemptedCredential);
+			return true;
+		}
+		return false;
 	}
 	
 	

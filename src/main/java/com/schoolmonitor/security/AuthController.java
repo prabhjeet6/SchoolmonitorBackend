@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.schoolmonitor.exception.SchoolMonitorException;
+import com.schoolmonitor.model.ChangePasswordDTO;
 import com.schoolmonitor.model.PasswordRecoveryDTO;
 import com.schoolmonitor.service.AuthService;
 
@@ -53,9 +54,8 @@ public class AuthController {
 	}
 
 	@PostMapping("/changePassword")
-	public ResponseEntity<?> changePassword(@RequestAttribute String emailId, @RequestAttribute String domain,
-			@RequestAttribute String newPassword) throws SendFailedException {
-		return ok(authService.changePassword(emailId, domain, newPassword));
+	public ResponseEntity<?> changePassword(@RequestBody ChangePasswordDTO dto) throws SendFailedException {
+		return ok(authService.changePassword(dto));
 	}
 
 }
