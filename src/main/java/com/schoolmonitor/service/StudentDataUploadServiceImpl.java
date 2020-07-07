@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -24,6 +23,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,19 +38,22 @@ import com.schoolmonitor.model.AddressDTO;
 import com.schoolmonitor.model.CredentialDTO;
 import com.schoolmonitor.model.SchoolSpecificDTO;
 import com.schoolmonitor.model.StudentDTO;
+import com.schoolmonitor.model.TenantContext;
 import com.schoolmonitor.repositories.schoolmonitor.AddressRepository;
 import com.schoolmonitor.repositories.schoolmonitor.CredentialsRepository;
 import com.schoolmonitor.repositories.schoolmonitor.SchoolSpecificesRepository;
 import com.schoolmonitor.repositories.schoolmonitor.StudentRepository;
 import com.schoolmonitor.repositories.schools.SchoolRepository;
 import com.schoolmonitor.repositories.schools.SubscriptionRepository;
+import com.schoolmonitor.security.JwtTokenProvider;
 
 /**
  * @author PrabhjeetS
  * @version 1.0 Dec 28, 2019
  * 
  *          Here, Bulk upload will happen for new students only(new/old
- *          Subscription), each upload will be for a particular class/section of a logged in school
+ *          Subscription), each upload will be for a particular class/section of
+ *          a logged in school
  */
 @Service
 public class StudentDataUploadServiceImpl implements StudentDataUploadService {
@@ -67,6 +70,8 @@ public class StudentDataUploadServiceImpl implements StudentDataUploadService {
 	@Autowired
 	SchoolSpecificDTO schoolSpecificDTO;
 
+	@Autowired
+	JwtTokenProvider jwtTokenProvider;
 	StudentDTO studentDTO;
 	AddressDTO addressDTO;
 	@Autowired
@@ -75,23 +80,24 @@ public class StudentDataUploadServiceImpl implements StudentDataUploadService {
 	PasswordEncoder passwordEncoder;
 
 	CredentialDTO credentialDTO;
+
 	@Override
-	public Void studentDataUpload(MultipartFile studentDataFile, HttpServletRequest request)
-			throws IOException, InvalidFormatException {
+	public Void studentDataUpload(MultipartFile studentDataFile) throws IOException, InvalidFormatException {
 
 		InputStream studentDataFileInputStream = studentDataFile.getInputStream();
-
+		String domain = TenantContext.getCurrentTenant();
 		String currentDirectoryAbsolutePath = new File(".").getAbsolutePath();
 		String uploadFilePath = currentDirectoryAbsolutePath.substring(0, currentDirectoryAbsolutePath.length() - 1)
-				+ request.getSession().getAttribute("Domain") + "\\" + studentDataFile.getOriginalFilename();
-		File schoolDir = new File(currentDirectoryAbsolutePath.substring(0, currentDirectoryAbsolutePath.length() - 1)
-				+ request.getSession().getAttribute("Domain"));
+				+ domain + "\\" + studentDataFile.getOriginalFilename();
+		File schoolDir = new File(
+				currentDirectoryAbsolutePath.substring(0, currentDirectoryAbsolutePath.length() - 1) + domain);
 		if (!schoolDir.isDirectory()) {
 			schoolDir.mkdir();
 		}
 		File fileToUpload = new File(schoolDir, studentDataFile.getOriginalFilename());
 		if (fileToUpload.exists())
 			fileToUpload.delete();
+		fileToUpload.createNewFile();
 		FileOutputStream studentDataFileOutputStream = new FileOutputStream(fileToUpload);
 
 		int streamedCharacter = 0;
@@ -102,14 +108,14 @@ public class StudentDataUploadServiceImpl implements StudentDataUploadService {
 		studentDataFileOutputStream.flush();
 		studentDataFileOutputStream.close();
 
-		migrateStudentDataToDB(uploadFilePath, request);
+		migrateStudentDataToDB(uploadFilePath, domain);
 		fileToUpload.delete();
 
 		return null;
 
 	}
 
-	private void migrateStudentDataToDB(String uploadFilePath, HttpServletRequest request)
+	private void migrateStudentDataToDB(String uploadFilePath, String domain)
 			throws InvalidFormatException, IOException {
 		FileInputStream uploadedFileInputStream = new FileInputStream(uploadFilePath);
 		String fileType = uploadFilePath.substring(uploadFilePath.lastIndexOf(".") + 1, uploadFilePath.length());
@@ -122,7 +128,7 @@ public class StudentDataUploadServiceImpl implements StudentDataUploadService {
 			uploadedWorkbook = new HSSFWorkbook(uploadedFileInputStream);
 			uploadedSheet = (HSSFSheet) uploadedWorkbook.getSheetAt(0);
 		}
-		School school = schoolRepository.findByDomainForLogin((String) request.getSession().getAttribute("Domain"));
+		School school = schoolRepository.findByDomainForLogin(domain);
 		if (null != school) {
 			Date currentDate = new Date();
 			int subscriptionId = school.getSubscriptionId();
@@ -130,7 +136,7 @@ public class StudentDataUploadServiceImpl implements StudentDataUploadService {
 			Date subscribedToDate = subscription.getSubscribedTo();
 			Date subscribedFromDate = subscription.getSubscribedFrom();
 			Credential loggedIncredential = credentialsRepository
-					.findByUserName(((String) request.getSession().getAttribute("Username")));
+					.findByUserName(SecurityContextHolder.getContext().getAuthentication().getName());
 			Map<String, Integer> columnHeadersMap = new HashMap<String, Integer>();
 			// check for valid subscription and Admin rights
 			if (loggedIncredential.getIsAdmin() == 1 && currentDate.compareTo(subscribedToDate) <= 0
@@ -157,7 +163,7 @@ public class StudentDataUploadServiceImpl implements StudentDataUploadService {
 						addressDTO = new AddressDTO();
 
 						Cell currentCellMarker = null;
-						
+
 						if (row.getRowNum() == 1) {
 							if (null != row.getCell(columnHeadersMap.get("schoolBranchName".trim()))) {
 								currentCellMarker = row.getCell(columnHeadersMap.get("schoolBranchName".trim()));
@@ -240,14 +246,9 @@ public class StudentDataUploadServiceImpl implements StudentDataUploadService {
 							if (currentCellMarker.getCellType() == Cell.CELL_TYPE_NUMERIC)
 								studentDTO.setContactNumber((int) currentCellMarker.getNumericCellValue());
 						}
-						if (null != row.getCell(columnHeadersMap.get("studentEmailID".trim()))) {
-							currentCellMarker = row.getCell(columnHeadersMap.get("studentEmailID".trim()));
-							if (currentCellMarker.getCellType() == Cell.CELL_TYPE_STRING)
-								studentDTO.setStudentEmailId(currentCellMarker.getStringCellValue());
-						}
 
-						 studentDTO.setStudentId(studentRepository.findMaxStudentId() + 1);
-						 addressDTO.setLinkedStudentId(Integer.toString(studentDTO.getStudentId()));
+						studentDTO.setStudentId(studentRepository.findMaxStudentId() + 1);
+						addressDTO.setLinkedStudentId(Integer.toString(studentDTO.getStudentId()));
 
 						if (null != row.getCell(columnHeadersMap.get("studentAddressLandMark".trim()))) {
 							currentCellMarker = row.getCell(columnHeadersMap.get("studentAddressLandMark".trim()));
@@ -298,8 +299,13 @@ public class StudentDataUploadServiceImpl implements StudentDataUploadService {
 						}
 						studentDTO.setClassRollnumberSectionInformation(classRollnumberSectionInformation);
 
-						credentialDTO
-								.setPassword(passwordEncoder.encode(studentFistName + studentLastName ));
+						if (null != row.getCell(columnHeadersMap.get("studentEmailID".trim()))) {
+							currentCellMarker = row.getCell(columnHeadersMap.get("studentEmailID".trim()));
+							if (currentCellMarker.getCellType() == Cell.CELL_TYPE_STRING)
+								credentialDTO.setEmailId(currentCellMarker.getStringCellValue());
+						}
+
+						credentialDTO.setPassword(passwordEncoder.encode(studentFistName + studentLastName));
 						String usernameCandidate = studentFistName + studentLastName.substring(0, 1);
 						int iterator = 1;
 						while (null != credentialsRepository.findByUserName(usernameCandidate)) {

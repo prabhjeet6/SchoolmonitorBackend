@@ -24,6 +24,13 @@ public class CredentialDTO  implements UserDetails{
 	public void setStudent(boolean isStudent) {
 		this.isStudent = isStudent;
 	}
+	private String emailId;
+	public String getEmailId() {
+		return emailId;
+	}
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
+	}
 	private byte isAdmin;
 	private String password;
 	private int userId;

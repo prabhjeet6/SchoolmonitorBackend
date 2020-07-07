@@ -26,7 +26,6 @@ public class StudentDTO {
 	private String motherName;
 	private String bloodGroup;
 	private int contactNumber;
-	private String studentEmailId;
 	private String linkedAddressId;
 	private Date dateOfBirth;
 	private int schoolSpecificsId;
@@ -104,13 +103,7 @@ public class StudentDTO {
 		this.contactNumber = contactNumber;
 	}
 
-	public String getStudentEmailId() {
-		return studentEmailId;
-	}
-
-	public void setStudentEmailId(String studentEmailId) {
-		this.studentEmailId = studentEmailId;
-	}
+	
 
 	public String getLinkedAddressId() {
 		return linkedAddressId;

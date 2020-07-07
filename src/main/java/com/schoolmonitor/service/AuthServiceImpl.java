@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.mail.SendFailedException;
-import javax.servlet.http.HttpSession;
 
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +50,7 @@ public class AuthServiceImpl implements AuthService {
 	CustomUserDetailsServiceImpl customUserDetailsServiceImpl;
 	@Autowired
 	PasswordEncoder passwordEncoder;
-
+ 
 	public Collection<? extends GrantedAuthority> getAuthorities(Collection<String> roles) {
 		List<GrantedAuthority> authorities = new ArrayList<>();
 		for (String role : roles) {
@@ -77,7 +76,7 @@ public class AuthServiceImpl implements AuthService {
 
 	public Object signin(@RequestBody AuthenticationRequest data, HttpServletRequest request) {
 
-		TenantContext.setCurrentTenant(data.getDomain());
+ 		TenantContext.setCurrentTenant(data.getDomain());
 
 		credentialDTO = (CredentialDTO) customUserDetailsServiceImpl.loadUserByDomainAndUsername(data.getDomain(),
 				data.getUsername());
@@ -89,15 +88,12 @@ public class AuthServiceImpl implements AuthService {
 
 			authtoken.setDetails(new WebAuthenticationDetails(request));
 
-			String token = jwtTokenProvider.createToken(data.getUsername(), this.getUserRoles(credentialDTO));
+			String token = jwtTokenProvider.createToken(data.getUsername(), this.getUserRoles(credentialDTO),data.getDomain());
 			Map<Object, Object> model = new HashMap<>();
 			model.put("Username", data.getUsername());
 			model.put("Token", token);
 
-			HttpSession session = request.getSession(true);
-			session.setAttribute("Username", data.getUsername());
-			session.setAttribute("Token", token);
-			session.setAttribute("Domain", data.getDomain());
+			
 			return model;
 		} else {
 			throw new BadCredentialsException("Credentials do not match with the expected User");

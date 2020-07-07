@@ -1,5 +1,6 @@
 package com.schoolmonitor.config;
 
+import java.security.Principal;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,5 +75,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-
+	
+	
 }
