@@ -9,8 +9,8 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,14 +31,16 @@ public class StudentDataUploadController {
 	}
 
 	private final StudentDataUploadService studentDataUploadService;
+    
+	@PostMapping(value = "/studentDataUpload", headers= {"Authorization"},consumes = { "multipart/form-data","application/octet-stream" })
 
-	@PostMapping(value = "/studentDataUpload", consumes = { "multipart/form-data" })
-
-	public ResponseEntity<?> studentDataUpload(@RequestBody MultipartFile studentDataFile) {
+	public ResponseEntity<?> studentDataUpload(@RequestParam("studentDataFile") MultipartFile   studentDataFile) {
 		try {
 			return ok(studentDataUploadService.studentDataUpload(studentDataFile));
 		} catch (IOException | InvalidFormatException e) {
-			throw new SchoolMonitorException(e);
+			//throw new SchoolMonitorException(e);
+			System.err.println(e);
+			return null;
 		}
 
 	}

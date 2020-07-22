@@ -109,9 +109,10 @@ public class StudentDataUploadServiceImpl implements StudentDataUploadService {
 		studentDataFileOutputStream.close();
 
 		migrateStudentDataToDB(uploadFilePath, domain);
-		fileToUpload.delete();
-
+		//fileToUpload.delete();
 		return null;
+
+		
 
 	}
 
