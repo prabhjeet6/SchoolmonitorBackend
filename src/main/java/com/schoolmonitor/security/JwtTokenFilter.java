@@ -21,8 +21,9 @@ import com.schoolmonitor.model.TenantContext;
  */
 @Component
 public class JwtTokenFilter extends GenericFilterBean {
-    @Autowired
+    
 	private JwtTokenProvider jwtTokenProvider;
+	@Autowired
     public JwtTokenFilter(JwtTokenProvider jwtTokenProvider) {
         this.jwtTokenProvider = jwtTokenProvider;
     }

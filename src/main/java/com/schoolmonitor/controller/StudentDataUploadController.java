@@ -32,7 +32,7 @@ public class StudentDataUploadController {
 
 	private final StudentDataUploadService studentDataUploadService;
     
-	@PostMapping(value = "/studentDataUpload", headers= {"Authorization"},consumes = { "multipart/form-data","application/octet-stream" })
+	@PostMapping(value = "/studentDataUpload", headers= {"Authorization"},consumes = { "multipart/form-data" })
 
 	public ResponseEntity<?> studentDataUpload(@RequestParam("studentDataFile") MultipartFile   studentDataFile) {
 		try {

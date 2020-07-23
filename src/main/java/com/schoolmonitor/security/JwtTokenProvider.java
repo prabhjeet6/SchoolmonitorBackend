@@ -61,9 +61,13 @@ public class JwtTokenProvider {
     	return (String) Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("Domain");
     }
     public String resolveToken(HttpServletRequest req) {
-        String bearerToken = req.getHeader("Authorization");
-        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+        
+    	String bearerToken = req.getHeader("Authorization");
+        System.out.println(bearerToken);
+    	if (bearerToken != null ) {
+    		if( bearerToken.startsWith("Bearer "))
             return bearerToken.substring(7, bearerToken.length());
+    		else return bearerToken;
         }
         return null;
     }
