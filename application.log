@@ -1,14 +1,2 @@
-2020-08-04 08:23:22.405  WARN 10428 --- [HikariPool-9 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-9 - Thread starvation or clock leap detected (housekeeper delta=20h31m11s722ms677µs799ns).
-2020-08-04 08:23:22.936  WARN 10428 --- [HikariPool-10 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-10 - Thread starvation or clock leap detected (housekeeper delta=20h31m12s78ms40µs600ns).
-2020-08-04 08:23:28.047  WARN 10428 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=20h31m11s781ms319µs600ns).
-2020-08-04 08:23:28.047  WARN 10428 --- [HikariPool-7 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-7 - Thread starvation or clock leap detected (housekeeper delta=20h31m11s970ms967µs999ns).
-2020-08-04 08:23:29.155  WARN 10428 --- [HikariPool-5 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-5 - Thread starvation or clock leap detected (housekeeper delta=20h31m11s895ms136µs699ns).
-2020-08-04 08:23:29.873  WARN 10428 --- [HikariPool-3 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-3 - Thread starvation or clock leap detected (housekeeper delta=20h31m11s976ms774µs500ns).
-2020-08-04 08:25:38.853  INFO 10428 --- [RMI TCP Connection(775)-127.0.0.1] inMXBeanRegistrar$SpringApplicationAdmin : Application shutdown requested.
-2020-08-04 08:25:38.874  INFO 10428 --- [RMI TCP Connection(775)-127.0.0.1] ConfigServletWebServerApplicationContext : Closing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@2f434958: startup date [Mon Aug 03 09:54:32 IST 2020]; root of context hierarchy
-2020-08-04 08:25:39.150  INFO 10428 --- [RMI TCP Connection(775)-127.0.0.1] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans on shutdown
-2020-08-04 08:25:39.150  INFO 10428 --- [RMI TCP Connection(775)-127.0.0.1] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans
-2020-08-04 08:25:39.165  INFO 10428 --- [RMI TCP Connection(775)-127.0.0.1] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2020-08-04 08:25:39.262  INFO 10428 --- [RMI TCP Connection(775)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-10 - Shutdown initiated...
-2020-08-04 08:25:39.286  INFO 10428 --- [RMI TCP Connection(775)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-10 - Shutdown completed.
-2020-08-04 08:25:39.290  INFO 10428 --- [RMI TCP Connection(775)-127.0.0.1] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-12-15 04:58:05.079  WARN 14700 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15h26m25s480ms303µs500ns).
+2020-12-15 04:58:05.079  WARN 14700 --- [HikariPool-2 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Thread starvation or clock leap detected (housekeeper delta=15h26m25s480ms255µs100ns).
