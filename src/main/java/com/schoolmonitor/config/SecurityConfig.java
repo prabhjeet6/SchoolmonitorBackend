@@ -1,6 +1,5 @@
 package com.schoolmonitor.config;
 
-import java.security.Principal;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import com.schoolmonitor.security.JwtConfigurer;
 import com.schoolmonitor.security.JwtTokenProvider;
@@ -39,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(Arrays.asList("https://localhost:8088", "http://localhost:4200"));
+		configuration.setAllowedOrigins(Arrays.asList("https://localhost:8088", "http://localhost:4200","http://localhost:4000"));//EN,Punjabi
 		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
 
 		configuration.setAllowedHeaders(

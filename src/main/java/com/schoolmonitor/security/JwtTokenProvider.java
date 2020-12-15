@@ -29,8 +29,8 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class JwtTokenProvider {
     @Value("${security.jwt.token.secret-key:secret}")
     private String secretKey = "secret";
-    @Value("${security.jwt.token.expire-length:120000}")
-    private long validityInMilliseconds = 120000; // 1h 3600000
+    @Value("${security.jwt.token.expire-length:600000}")
+    private long validityInMilliseconds = 600000; // 1h 3600000
     @Autowired
      private CustomUserDetailsServiceImpl customUserDetailsServiceImpl;
     @PostConstruct
@@ -41,7 +41,7 @@ public class JwtTokenProvider {
         Claims claims = Jwts.claims().setSubject(username);
         claims.put("roles", roles);
         claims.put("Domain", domain);
-        Date now = new Date();
+         Date now = new Date();
         Date validity = new Date(now.getTime() + validityInMilliseconds);
         return Jwts.builder()//
             .setClaims(claims)//
@@ -63,7 +63,7 @@ public class JwtTokenProvider {
     public String resolveToken(HttpServletRequest req) {
         
     	String bearerToken = req.getHeader("Authorization");
-        System.out.println(bearerToken);
+        System.out.println("This is bearer Token from Auth Header "+bearerToken);
     	if (bearerToken != null ) {
     		if( bearerToken.startsWith("Bearer "))
             return bearerToken.substring(7, bearerToken.length());
@@ -74,6 +74,7 @@ public class JwtTokenProvider {
     public boolean validateToken(String token) {
         try {
             Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+            System.out.println("Token Exipiry date "+claims.getBody().getExpiration()+"\n"+" current date "+new Date());
             if (claims.getBody().getExpiration().before(new Date())) {
                 return false;
             }

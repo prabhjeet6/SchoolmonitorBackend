@@ -3,11 +3,9 @@ package com.schoolmonitor.security;
 import static org.springframework.http.ResponseEntity.ok;
 
 import javax.mail.SendFailedException;
-import javax.servlet.http.HttpSession;
 
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;

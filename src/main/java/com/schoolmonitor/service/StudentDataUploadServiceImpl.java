@@ -82,7 +82,7 @@ public class StudentDataUploadServiceImpl implements StudentDataUploadService {
 	CredentialDTO credentialDTO;
 
 	@Override
-	public Void studentDataUpload(MultipartFile studentDataFile) throws IOException, InvalidFormatException {
+	public Boolean studentDataUpload(MultipartFile studentDataFile) throws IOException, InvalidFormatException {
 
 		InputStream studentDataFileInputStream = studentDataFile.getInputStream();
 		String domain = TenantContext.getCurrentTenant();
@@ -110,7 +110,7 @@ public class StudentDataUploadServiceImpl implements StudentDataUploadService {
 
 		migrateStudentDataToDB(uploadFilePath, domain);
 		//fileToUpload.delete();
-		return null;
+		return true;
 
 		
 
