@@ -54,7 +54,7 @@ public class Credential implements Serializable {
 
 	@Column(length = 255)
 	private String linkedTeacherId;
-
+    @Column
 	private int numberOfRetry;
 
 	@Column(nullable = false, length = 255)

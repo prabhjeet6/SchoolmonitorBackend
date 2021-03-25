@@ -38,9 +38,9 @@ public class StudentDataUploadController {
 		try {
 			return ok(studentDataUploadService.studentDataUpload(studentDataFile));
 		} catch (IOException | InvalidFormatException e) {
-			//throw new SchoolMonitorException(e);
-			System.err.println(e);
-			return null;
+			throw new SchoolMonitorException(e);
+			//System.err.println(e);
+			//return null;
 		}
 
 	}

@@ -29,7 +29,7 @@ public class Student implements Serializable {
 
 	@Column(nullable = false, length = 4)
 	private String bloodGroup;
-
+    @Column
 	private int contactNumber;
 
 	@Temporal(TemporalType.DATE)
