@@ -27,8 +27,9 @@ spring:
         restart:
             exclude: static/**,public/**
             log-condition-evaluation-delta: true
-
-
+            
+    
+      
     mail:
      properties:
            mail:

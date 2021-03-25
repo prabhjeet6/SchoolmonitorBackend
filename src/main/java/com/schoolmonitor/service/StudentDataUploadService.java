@@ -15,6 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public interface StudentDataUploadService {
  
-	Void studentDataUpload(MultipartFile studentDataFile) throws IOException, InvalidFormatException;
+	Boolean studentDataUpload(MultipartFile studentDataFile) throws IOException, InvalidFormatException;
 	
 }
