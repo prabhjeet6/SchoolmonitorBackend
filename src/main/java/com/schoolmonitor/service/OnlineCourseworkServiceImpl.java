@@ -13,14 +13,11 @@ import org.apache.kafka.clients.producer.Callback;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
-import org.elasticsearch.action.bulk.BulkRequest;
-import org.elasticsearch.action.bulk.BulkResponse;
-import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.common.xcontent.XContentType;
+import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
@@ -29,11 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.schoolmonitor.messagebroker.MessageBrokerAndElasticClientFactory;
-
-import net.minidev.json.JSONObject;
 
 /**
  * @author PrabhjeetS
@@ -59,22 +52,23 @@ public class OnlineCourseworkServiceImpl implements OnlineCourseworkService{
                 }
             }
         });
+		logger.info("Shutting down producer");
 		//flush and close
 		producer.close();
+		logger.info("Producer has been Shut down");
 		
 		RestHighLevelClient client = MessageBrokerAndElasticClientFactory.createElasticSearchClient();
 
 		KafkaConsumer<String, String> consumer = MessageBrokerAndElasticClientFactory.createConsumer("relevant_videos");
 		
 		while (true) {
-			ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
+			ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100)); 
 			for (ConsumerRecord<String, String> consumerRecord : records) {
 				SearchRequest searchRequest = new SearchRequest("onlinecoursework");
 				
 				SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder(); 
 				searchSourceBuilder.query(QueryBuilders.multiMatchQuery(searchTerm, "url","category","name","author","Thumbnail")); 
 				searchRequest.source(searchSourceBuilder); 
-				
 				SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
 				SearchHits hits = searchResponse.getHits();
 				
@@ -86,13 +80,12 @@ public class OnlineCourseworkServiceImpl implements OnlineCourseworkService{
 					Map<String, Object> sourceAsMap = hit.getSourceAsMap();
 					results.add(sourceAsMap);
 				}
-
-				client.close();
-			return	results;
+            logger.info("Shutting down consumer");
+			client.close();
+			logger.info("Consumer has been shut down");
+   			return	results;
 			
 			}
-			
 		}
-		
 	}
 }
