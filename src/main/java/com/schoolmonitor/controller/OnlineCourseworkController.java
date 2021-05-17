@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.schoolmonitor.exception.SchoolMonitorException;
+import com.schoolmonitor.model.SearchInputModel;
 import com.schoolmonitor.service.OnlineCourseworkService;
 
 /**
@@ -28,9 +29,9 @@ public class OnlineCourseworkController {
 
 	@PostMapping(value = "/searchOnlineCoursework", headers = { "Authorization" })
 
-	public ResponseEntity<?> searchOnlineCoursework(@RequestBody String searchTerm) throws IOException {
+	public ResponseEntity<?> searchOnlineCoursework(@RequestBody SearchInputModel searchInputModel) throws IOException {
 		try{
-			return ok(onlineCourseworkService.searchOnlineCoursework(searchTerm));
+			return ok(onlineCourseworkService.searchOnlineCoursework(searchInputModel));
 		}catch(  SchoolMonitorException  e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
