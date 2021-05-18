@@ -87,8 +87,10 @@ public class OnlineCourseworkServiceImpl implements OnlineCourseworkService {
 			ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
 			for (ConsumerRecord<String, String> consumerRecord : records) {
 			 	for (SearchHit hit : queryElasticSearch(searchInputModel, client)) {
+			 		if(null!=hit) {
 					Map<String, Object> sourceAsMap = hit.getSourceAsMap();
 					searchResults.add(sourceAsMap);
+			 		}
 				}
 				logger.info("Shutting down consumer");
 				client.close();
