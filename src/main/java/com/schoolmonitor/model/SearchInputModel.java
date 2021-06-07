@@ -3,13 +3,16 @@
  */
 package com.schoolmonitor.model;
 
+import java.io.Serializable;
+
 /**
  * @author Prabhjeet Singh
  *
  * Apr 4, 2021
  */
-public class SearchInputModel {
+public class SearchInputModel  {
 
+	
 	String searchTerm;
 	
 	/**current page is requested page**/
