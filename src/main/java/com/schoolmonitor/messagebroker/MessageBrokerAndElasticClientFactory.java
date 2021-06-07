@@ -51,10 +51,9 @@ public static KafkaProducer<String, String> createProducer(){
 }
 
 public static RestHighLevelClient createElasticSearchClient() {
-	//https://g68yjnfth8:730krklpfa@schoolmonitor-5569875963.us-east-1.bonsaisearch.net:443
-	String hostName = "schoolmonitor-5569875963.us-east-1.bonsaisearch.net";
-	String userName = "g68yjnfth8";
-	String password = "730krklpfa";
+	String hostName = "";
+	String userName = "";
+	String password = "";
 	// Do not do, if you are running a local Elastic search instance
 	final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
 	credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(userName, password));

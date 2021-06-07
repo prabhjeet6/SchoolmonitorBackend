@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +25,7 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.schoolmonitor.messagebroker.MessageBrokerAndElasticClientFactory;
@@ -102,9 +102,10 @@ public class OnlineCourseworkServiceImpl implements OnlineCourseworkService {
 			}
 		}
 	}
-
+    
+	@Cacheable(key= "#root.args[0].searchTerm",cacheManager="schoolmonitorCacheManager",cacheNames="searchCache")
 	public Object searchOnlineCoursework(SearchInputModel searchInputModel) throws IOException {
-
+         
 		produceSearchTerm(searchInputModel);
 		RestHighLevelClient client = MessageBrokerAndElasticClientFactory.createElasticSearchClient();
 		KafkaConsumer<String, String> consumer = MessageBrokerAndElasticClientFactory.createConsumer("relevant_videos");
