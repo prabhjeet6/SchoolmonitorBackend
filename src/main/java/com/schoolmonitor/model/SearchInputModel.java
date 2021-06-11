@@ -3,8 +3,6 @@
  */
 package com.schoolmonitor.model;
 
-import java.io.Serializable;
-
 /**
  * @author Prabhjeet Singh
  *

@@ -43,9 +43,9 @@ public class CacheConfiguration {
 	public JedisConnectionFactory redisConnectionFactory() {
 
 		RedisStandaloneConfiguration config = new RedisStandaloneConfiguration(
-				"", 12458);
+				"redis-12458.c98.us-east-1-4.ec2.cloud.redislabs.com", 12458);
 		if (!config.getPassword().isPresent())
-			config.setPassword(RedisPassword.of(""));
+			config.setPassword(RedisPassword.of("HfASHBis9LFFfUq9giFKaCTQdR36ddpJ"));
 		return new JedisConnectionFactory(config);
 
 	}

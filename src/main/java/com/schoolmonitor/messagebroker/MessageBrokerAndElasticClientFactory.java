@@ -51,11 +51,12 @@ public static KafkaProducer<String, String> createProducer(){
 }
 
 public static RestHighLevelClient createElasticSearchClient() {
-	String hostName = "";
-	String userName = "";
-	String password = "";
+	//https://username:password@host:port
+	String hostName = "schoolmonitor-5569875963.us-east-1.bonsaisearch.net";
+	String userName = "86oWNfRsyU";
+	String password = "pbYA2rjesZv6Bw3XgR";
 	// Do not do, if you are running a local Elastic search instance
-	final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+	final CredentialsProvider credentialsProvider = new BasicCredentialsProvider(); 
 	credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(userName, password));
 	RestClientBuilder builder = RestClient.builder(new HttpHost(hostName, 443, "https"))
 			.setHttpClientConfigCallback(new RestClientBuilder.HttpClientConfigCallback() {
@@ -80,7 +81,7 @@ public static KafkaConsumer<String, String> createConsumer(String topic) {
 	properties.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
 	properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG, groupId);
 	// earliest/latest/none
-	properties.setProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+	properties.setProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
     
 	//To disable auto commit of offsets to be able to commit manually; true by default
 	properties.setProperty(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "true");
@@ -97,3 +98,4 @@ public static KafkaConsumer<String, String> createConsumer(String topic) {
 }
 
 }
+
