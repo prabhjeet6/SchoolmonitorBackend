@@ -10,12 +10,14 @@ schoolmonitor:
     
         dataSources:
         -
+            #connecting to RDS,hence, driver class is not required
             driverClassName: com.mysql.cj.jdbc.Driver 
             password: Rome!234
             url: jdbc:mysql://localhost:3306/schoolmonitor2
             username: root
             tenantIdentifier: BenHur
         -
+            #connecting to RDS,hence, driver class is not required
             driverClassName: com.mysql.cj.jdbc.Driver 
             password: Rome!234
             url: jdbc:mysql://localhost:3306/schoolmonitor
@@ -51,8 +53,9 @@ spring:
             hibernate:
                 dialect: org.hibernate.dialect.MySQL5InnoDBDialect
         show-sql: true
-    shools:
+    schools:
         datasource:
+            #connecting to RDS,hence, driver class is not required
             driver-class-name: com.mysql.cj.jdbc.Driver
             password: Rome!234
             url: jdbc:mysql://localhost:3306/schools

@@ -1,0 +1,15 @@
+com.schoolmonitor
+com.schoolmonitor.config
+com.schoolmonitor.controller
+com.schoolmonitor.entities.schoolmonitor
+com.schoolmonitor.entities.schools
+com.schoolmonitor.exception
+com.schoolmonitor.messagebroker
+com.schoolmonitor.model
+com.schoolmonitor.multitenacy
+com.schoolmonitor.repositories
+com.schoolmonitor.repositories.schoolmonitor
+com.schoolmonitor.repositories.schools
+com.schoolmonitor.security
+com.schoolmonitor.service
+com.schoolmonitor.utils

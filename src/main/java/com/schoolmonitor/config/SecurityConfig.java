@@ -1,6 +1,5 @@
 package com.schoolmonitor.config;
 
-import java.security.Principal;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import com.schoolmonitor.security.JwtConfigurer;
 import com.schoolmonitor.security.JwtTokenProvider;
@@ -39,7 +37,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(Arrays.asList("https://localhost:8088", "http://localhost:4000"));
+		configuration.setAllowedOrigins(Arrays.asList("https://localhost:8088",
+				"ec2-13-233-113-58.ap-south-1.compute.amazonaws.com", "http://localhost:4000"));
 		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
 
 		configuration.setAllowedHeaders(
@@ -57,17 +56,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		http.cors().configurationSource(corsConfigurationSource())
 
-				.and().csrf().disable().headers().frameOptions().disable().and().httpBasic().disable()
-				.authorizeRequests().antMatchers("/auth/**").permitAll()
-				
-				.antMatchers("/schoolmonitor/FeesManagment/**").hasAuthority("Student User")
-				.antMatchers("/schoolmonitor/TeacherConsole/**").hasAuthority("Teacher User")
-				.antMatchers("/schoolmonitor/AdminConsole/**").hasAuthority("Administrator")
-				.antMatchers("/schoolmonitor/AttendanceManagment/**").permitAll()
-				.antMatchers("/schoolmonitor/CourseManagment/**", "/schoolmonitor/studentDataUpload").permitAll()
-				.antMatchers("/schoolmonitor/schoolDomains").anonymous()
-				.antMatchers("/schoolmonitor/ResultManagment/**").hasAuthority("Student User").anyRequest()
-				.authenticated().and().apply(new JwtConfigurer(jwtTokenProvider));
+		.and().csrf().disable().headers().frameOptions().disable().and().httpBasic().disable()
+		.authorizeRequests().antMatchers("/auth/**").permitAll()
+		
+		.antMatchers("/v2/api-docs").permitAll()
+        .antMatchers("/configuration/ui").permitAll()
+        .antMatchers("/swagger-resources/**").permitAll()
+        .antMatchers("/configuration/security").permitAll()
+        .antMatchers("/swagger-ui.html").permitAll()
+        .antMatchers("/swagger-ui/*").permitAll()
+        .antMatchers("/webjars/**").permitAll()
+        .antMatchers("/v2/**").permitAll()
+
+		
+		.antMatchers("/schoolmonitor/FeesManagment/**").hasAuthority("Student User")
+		.antMatchers("/schoolmonitor/TeacherConsole/**").hasAuthority("Teacher User")
+		.antMatchers("/schoolmonitor/AdminConsole/**").hasAuthority("Administrator")
+		.antMatchers("/schoolmonitor/AttendanceManagment/**").permitAll()
+		.antMatchers("/schoolmonitor/CourseManagment/**", "/schoolmonitor/studentDataUpload").permitAll()
+		.antMatchers("/schoolmonitor/schoolDomains").anonymous()
+		.antMatchers("/schoolmonitor/ResultManagment/**").hasAuthority("Student User").anyRequest()
+		.authenticated().and().apply(new JwtConfigurer(jwtTokenProvider));
 
 	}
 
@@ -75,6 +84,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
-	
+
 }

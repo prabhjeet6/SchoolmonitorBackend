@@ -34,13 +34,13 @@ public class SchoolsPersistenceContextConfig {
 
 	@Autowired
 	JpaPropertiesUtils jpaPropertiesUtils;
-	@Value("${spring.shools.datasource.username}")
+	@Value("${spring.schools.datasource.username}")
 	String dataUsername;
-	@Value("${spring.shools.datasource.password}")
+	@Value("${spring.schools.datasource.password}")
 	String password;
-	@Value("${spring.shools.datasource.url}")
+	@Value("${spring.schools.datasource.url}")
 	String url;
-	@Value("${spring.shools.datasource.driver-class-name}")
+	@Value("${spring.schools.datasource.driver-class-name}")
 	String driverClassName;
     
 	@Primary
