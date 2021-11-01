@@ -58,6 +58,7 @@ public class CustomUserDetailsServiceImpl implements CustomUserDetailsService {
 				}
 			}
 		} catch (Throwable ex) {
+			System.out.println(ex);
 			throw new SchoolMonitorException(ex);
 		}
 

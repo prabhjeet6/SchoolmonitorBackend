@@ -13,7 +13,9 @@ import com.schoolmonitor.repositories.BaseRepository;
  */
 @Repository
 public interface SchoolRepository extends BaseRepository<School, Integer> {
+	
 	School findByDomainForLogin(String domain);
+	
 	@Query("select s.domainForLogin from School s")
 	List<String> findDomainForLogin();
 }

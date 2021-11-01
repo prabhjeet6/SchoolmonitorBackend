@@ -37,7 +37,7 @@ public class CredentialDTO  implements UserDetails{
 	private String userName;
 	private Date accountCreationDate;
 	private Date passwordLastChangedDate;
-	private int numberOfRetry;
+	private Integer numberOfRetry;
     private byte isActive;
     private boolean isStudent;
     private Collection<? extends GrantedAuthority>authorities;
@@ -79,10 +79,10 @@ public class CredentialDTO  implements UserDetails{
 	public void setPasswordLastChangedDate(Date passwordLastChangedDate) {
 		this.passwordLastChangedDate = passwordLastChangedDate;
 	}
-	public int getNumberOfRetry() {
+	public Integer getNumberOfRetry() {
 		return numberOfRetry;
 	}
-	public void setNumberOfRetry(int numberOfRetry) {
+	public void setNumberOfRetry(Integer numberOfRetry) {
 		this.numberOfRetry = numberOfRetry;
 	}
 	public byte getIsActive() {

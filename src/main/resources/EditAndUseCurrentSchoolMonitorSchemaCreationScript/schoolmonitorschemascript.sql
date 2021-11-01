@@ -138,7 +138,7 @@ SHOW WARNINGS;
 CREATE UNIQUE INDEX `linkedAddressId_UNIQUE` ON `schoolmonitor`.`teacher` (`linkedAddressId` ASC) ;
 
 SHOW WARNINGS;
-CREATE INDEX `teacher_ibfk_1` ON `schoolmonitor`.`teacher` (`schoolSpecificsId` ASC) ;
+CREATE INDEX `LinkedSchoolspecificsId` ON `schoolmonitor`.`teacher` (`schoolSpecificsId` ASC) ;
 
 SHOW WARNINGS;
 

@@ -30,6 +30,15 @@ public class StudentDTO {
 	private Date dateOfBirth;
 	private int schoolSpecificsId;
 	private String classRollnumberSectionInformation;
+	private String gender;
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
 
 	public int getStudentId() {
 		return studentId;

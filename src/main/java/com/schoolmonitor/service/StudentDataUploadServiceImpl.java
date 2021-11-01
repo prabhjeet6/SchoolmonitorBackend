@@ -300,6 +300,13 @@ public class StudentDataUploadServiceImpl implements StudentDataUploadService {
 						}
 						studentDTO.setClassRollnumberSectionInformation(classRollnumberSectionInformation);
 
+						
+						if (null != row.getCell(columnHeadersMap.get("studentGender".trim()))) {
+							currentCellMarker = row.getCell(columnHeadersMap.get("studentGender".trim()));
+							if (currentCellMarker.getCellType() == Cell.CELL_TYPE_STRING)
+								studentDTO.setGender(currentCellMarker.getStringCellValue());
+						}
+						
 						if (null != row.getCell(columnHeadersMap.get("studentEmailID".trim()))) {
 							currentCellMarker = row.getCell(columnHeadersMap.get("studentEmailID".trim()));
 							if (currentCellMarker.getCellType() == Cell.CELL_TYPE_STRING)
@@ -314,7 +321,14 @@ public class StudentDataUploadServiceImpl implements StudentDataUploadService {
 							iterator++;
 						}
 						credentialDTO.setUserName(usernameCandidate);
-						credentialDTO.setIsAdmin((byte) 0);
+						
+						if (null != row.getCell(columnHeadersMap.get("isAdmin".trim()))) {
+							currentCellMarker = row.getCell(columnHeadersMap.get("isAdmin".trim()));
+							if (currentCellMarker.getCellType() == Cell.CELL_TYPE_NUMERIC)
+								credentialDTO.setIsAdmin((byte) currentCellMarker.getNumericCellValue());
+						}
+						
+						
 						credentialDTO.setAccountCreationDate(currentDate);
 						credentialDTO.setPasswordLastChangedDate(currentDate);
 						credentialDTO.setNumberOfRetry(0);

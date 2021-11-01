@@ -55,7 +55,7 @@ public class Credential implements Serializable {
 	@Column(length = 255)
 	private String linkedTeacherId;
     @Column
-	private int numberOfRetry;
+	private Integer numberOfRetry;
 
 	@Column(nullable = false, length = 255)
 	private String password;
@@ -117,11 +117,11 @@ public class Credential implements Serializable {
 		this.linkedTeacherId = linkedTeacherId;
 	}
 
-	public int getNumberOfRetry() {
+	public Integer getNumberOfRetry() {
 		return this.numberOfRetry;
 	}
 
-	public void setNumberOfRetry(int numberOfRetry) {
+	public void setNumberOfRetry(Integer numberOfRetry) {
 		this.numberOfRetry = numberOfRetry;
 	}
 
