@@ -34,7 +34,7 @@ public class SchoolMonitorException extends RuntimeException {
 		
 	}
 	
-
+  
 	public Throwable getEx() {
 		return ex;
 	}

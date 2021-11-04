@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
@@ -37,8 +38,6 @@ public class CustomUserDetailsServiceImpl implements CustomUserDetailsService {
 	@Autowired
 	private SubscriptionRepository subscriptionRepository;
 
-	
-
 	@Autowired
 	AuthService authService;
 
@@ -51,18 +50,24 @@ public class CustomUserDetailsServiceImpl implements CustomUserDetailsService {
 			Date currentDate = new Date();
 			if (currentDate.compareTo(subscription.getSubscribedTo()) <= 0
 					&& currentDate.compareTo(subscription.getSubscribedFrom()) >= 0) {
-				Credential attemptedCredential=credentialsRepository.findByUserName(username);
-				if (null != attemptedCredential&&attemptedCredential.getIsActive()==1) {
+				Credential attemptedCredential = credentialsRepository.findByUserName(username);
+				if (null != attemptedCredential && attemptedCredential.getIsActive() == 1) {
 					credentialDTO.setDomain(domain);
 					return this.loadUserByUsername(username);
+				} else {
+					throw new BadCredentialsException(
+							"Username does not exist in the Domain or User profile is not Active");
 				}
+			}else {
+				throw new BadCredentialsException(
+						"Subscription expired or does not exist");
 			}
 		} catch (Throwable ex) {
 			System.out.println(ex);
 			throw new SchoolMonitorException(ex);
 		}
 
-		return null;
+		
 
 	}
 
